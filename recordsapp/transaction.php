@@ -24,11 +24,49 @@
         require('config/config.php');
         require('config/db.php');
 
+        // Gets the value sent over search form
+        $search = $_GET['search'];
+
+        // Define the total number of results you want per page
+        $results_per_page = 10;
+
+        // Find the total number of results/rows storedc in the database
+        $query = "SELECT * FROM transaction";
+        $result = mysqli_query($conn, $query);
+        $number_of_result = mysqli_num_rows($result);
+
+        // Determine the total number of pages availble
+        $number_of_page = ceil($number_of_result / $results_per_page);
+
+        // Determine which page number visitor is currently on
+        if(!isset($_GET['page'])){
+            $page = 1;
+
+        }else{
+            $page = $_GET['page'];
+        }
+
+        // Determine the sql LIMIT starting number for the results on the display page
+        $page_first_result = ($page-1) * $results_per_page;
+
         // Create Query
-        $query = 'SELECT transaction.datelog, transaction.documentcode, transaction.action, office.name
-        as office_name, CONCAT(employee.lastname, ",", employee.firstname) as employee_fullname 
-        FROM employee, office, transaction WHERE transaction.employee_id=employee.id and 
-        transaction.office_id = office.id';
+        if(strlen($search > 0)){
+
+            $query = 'SELECT transaction.id, transaction.datelog, transaction.documentcode, transaction.action, transaction.remarks, office.name
+            as office_name, CONCAT(employee.lastname, ",", employee.firstname) as employee_fullname 
+            FROM employee, office, transaction WHERE transaction.employee_id=employee.id and 
+            transaction.office_id = office.id AND transaction.documentcode = ' . $search . '
+            ORDER BY transaction.documentcode, transaction.datelog LIMIT '. $page_first_result . ',' . $results_per_page;
+
+        }else{
+
+            $query = 'SELECT transaction.id, transaction.datelog, transaction.documentcode, transaction.action, transaction.remarks, office.name
+            as office_name, CONCAT(employee.lastname, ",", employee.firstname) as employee_fullname 
+            FROM employee, office, transaction WHERE transaction.employee_id=employee.id and 
+            transaction.office_id = office.id ORDER BY transaction.documentcode, transaction.datelog 
+            LIMIT '. $page_first_result . ',' . $results_per_page;
+
+        }
 
         // Get the result
         $result = mysqli_query($conn, $query);
@@ -51,10 +89,17 @@
             <div class="sidebar-wrapper">
                 
             <div class="logo">
-                    <a href="javascript:;" class="simple-text">
-                      Your Logo
-                    </a>
+                <div class="row">
+                    <div class="col-md-2">
+                    <i class="nc-icon nc-icon nc-app pull-left" style="font-size: 20px; padding: 10px;"></i>
+                   
+                    </div>
+                    <div class="col-md-10">
+                    <a href="transaction.php" class="simple-text  pull-left">Record App</a>
+                    </div>
                 </div>
+            </div>
+            
                 <ul class="nav">
                     <li class="nav-item active">
                         <a class="nav-link" href="transaction.php">
@@ -99,10 +144,31 @@
                     <div class=row> 
                         <div class="col-md-12">
                             <div class="card strpied-tabled-with-hover">
-                                <div class="card-header ">
-                                    <h4 class="card-title">Transactions</h4>
-                                    <p class="card-category">Here is the list of your trasactions</p>
+                            <br/>
+
+                                <div class="col-md-12">
+                                    <div class="card-header ">
+                                        <h2 class="card-title">Transactions</h2>
+                                        <p class="card-category">Here is the list of your trasactions</p>
+                                    </div>
                                 </div>
+
+                                <br/>
+
+                                <div class="row" style="padding: 15px;">
+                                    <div class="col-md-6">
+                                        <form action="transaction.php" method="GET">
+                                            <input type="text" name="search" placeholder="Search here..." style="padding: 5px; width: 250px">
+                                            <input type="submit" value="Search" class="btn btn-primary btn-fill">
+                                        </form>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="/transaction-add.php">
+                                            <button type="submit" class="btn btn-primary btn-fill pull-right"> Add New Transaction </button>
+                                        </a>
+                                    </div> 
+                                </div>
+
                                 <div class="card-body table-full-width table-responsive">
                                     <table class="table table-hover table-striped">
                                         <thead>
@@ -112,6 +178,7 @@
                                             <th>Office</th>
                                             <th>Employee</th>
                                             <th>Remarks</th>
+                                            <th>Action</th>
                                         </thead>
 
                                         <tbody>
@@ -124,7 +191,12 @@
                                                 <td> <?php echo $transaction['action']; ?> </td>
                                                 <td> <?php echo $transaction['office_name']; ?> </td>
                                                 <td> <?php echo $transaction['employee_fullname']; ?> </td>                              
-                                                <td> <?php echo $transaction['remarks']; ?> </td>                                                            
+                                                <td> <?php echo $transaction['remarks']; ?> </td>   
+                                                <td> 
+                                                    <a href="/transaction-edit.php?id=<?php echo $transaction['id']; ?>"> 
+                                                        <button type="submit" class="btn btn-primary btn-fill pull-right">Edit</button>
+                                                    </a>
+                                                </td>                                                              
                                             </tr>
                                             
                                             <?php endforeach ?>
@@ -135,42 +207,23 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <?php
+                        for($page = 1; $page <= $number_of_page; $page++){
+                            echo '<a href="transaction.php?page='. $page . '">' . $page . '</a>';
+                        }
+                    ?>
 
                 </div>
             </div>
             <footer class="footer">
                 <div class="container-fluid">
-                    <nav>
-                        <ul class="footer-menu">
-                            <li>
-                                <a href="#">
-                                    Home
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Company
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Portfolio
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Blog
-                                </a>
-                            </li>
-                        </ul>
-                        <p class="copyright text-center">
-                            ©
-                            <script>
-                                document.write(new Date().getFullYear())
-                            </script>
-                            <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
-                        </p>
-                    </nav>
+                    <p class="copyright text-center">©
+                        <script>
+                            document.write(new Date().getFullYear())
+                        </script>
+                        <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
+                    </p>
                 </div>
             </footer>
         </div>

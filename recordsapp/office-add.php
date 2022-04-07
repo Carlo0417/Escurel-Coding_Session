@@ -24,13 +24,20 @@
             <div class="sidebar-wrapper">
                 
             <div class="logo">
-                    <a href="javascript:;" class="simple-text">
-                      Your Logo
-                    </a>
+                <div class="row">
+                    <div class="col-md-2">
+                    <i class="nc-icon nc-icon nc-app pull-left" style="font-size: 20px; padding: 10px;"></i>
+                   
+                    </div>
+                    <div class="col-md-10">
+                    <a href="transaction.php" class="simple-text  pull-left">Record App</a>
+                    </div>
                 </div>
+            </div>
+            
                 <ul class="nav">
                     <li>
-                        <a class="nav-link" href="index.php">
+                        <a class="nav-link" href="transaction.php">
                             <i class="nc-icon nc-icon nc-badge"></i>
                             <p>Transactions</p>
                         </a>
@@ -157,84 +164,22 @@
                                             </div>
                                         </div>
 
-                                        <button type="submit" name="submit" value="Submit" class="btn btn-info btn-fill pull-right">Save</button>
+                                        <button type="submit" name="submit" value="Submit" class="btn btn-danger btn-fill pull-right">Save</button>
                                         <div class="clearfix"></div>  <br>
                                     </form>
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-md-4">
-                            <div class="card card-user">
-                                <div class="card-image">
-                                    <img src="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400" alt="...">
-                                </div>
-                                <div class="card-body">
-                                    <div class="author">
-                                        <a href="#">
-                                            <img class="avatar border-gray" src="../assets/img/faces/face-3.jpg" alt="...">
-                                            <h5 class="title">Mike Andrew</h5>
-                                        </a>
-                                        <p class="description">
-                                            michael24
-                                        </p>
-                                    </div>
-                                    <p class="description text-center">
-                                        "Lamborghini Mercy
-                                        <br> Your chick she so thirsty
-                                        <br> I'm in that two seat Lambo"
-                                    </p>
-                                </div>
-                                <hr>
-                                <div class="button-container mr-auto ml-auto">
-                                    <button href="#" class="btn btn-simple btn-link btn-icon">
-                                        <i class="fa fa-facebook-square"></i>
-                                    </button>
-                                    <button href="#" class="btn btn-simple btn-link btn-icon">
-                                        <i class="fa fa-twitter"></i>
-                                    </button>
-                                    <button href="#" class="btn btn-simple btn-link btn-icon">
-                                        <i class="fa fa-google-plus-square"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-
                 </div>
             </div>
             <footer class="footer">
                 <div class="container-fluid">
-                    <nav>
-                        <ul class="footer-menu">
-                            <li>
-                                <a href="#">
-                                    Home
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Company
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Portfolio
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Blog
-                                </a>
-                            </li>
-                        </ul>
-                        <p class="copyright text-center">
-                            ©
-                            <script>
-                                document.write(new Date().getFullYear())
-                            </script>
-                            <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
-                        </p>
-                    </nav>
+                    <p class="copyright text-center">©
+                        <script>
+                            document.write(new Date().getFullYear())
+                        </script>
+                        <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
+                    </p>
                 </div>
             </footer>
         </div>

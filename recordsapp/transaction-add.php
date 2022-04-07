@@ -6,7 +6,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="/assets/img/favicon.ico">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Record App - Adding Employee</title>
+    <title>Record App - Adding Transaction</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
@@ -78,14 +78,15 @@
         if(isset($_POST['submit'])){
 
             // Get form data
-            $lastname = mysqli_real_escape_string($conn, $_POST['lastname']);
-            $firstname = mysqli_real_escape_string($conn, $_POST['firstname']); 
-            $office_id = mysqli_real_escape_string($conn, $_POST['office']);
-            $address = mysqli_real_escape_string($conn, $_POST['address']);
+            $documentcode = mysqli_real_escape_string($conn, $_POST['documentcode']);
+            $action = mysqli_real_escape_string($conn, $_POST['action']); 
+            $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
+            $employee_id = mysqli_real_escape_string($conn, $_POST['employee_id']);
+            $office_id = mysqli_real_escape_string($conn, $_POST['office_id']);
 
             // Create Insert Query
-            $query = "INSERT INTO employee(lastname, firstname, office_id, address) 
-            VALUES('$lastname', '$firstname', '$office_id', '$address')";
+            $query = "INSERT INTO transaction(documentcode, action, remarks, employee_id, office_id) 
+            VALUES('$documentcode', '$action', '$remarks', '$employee_id', '$office_id')";
 
             // Execute Query
             if(mysqli_query($conn, $query)){
@@ -106,34 +107,65 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">Add New Employee</h4>
+                                    <h4 class="card-title">Add New Transaction</h4>
                                 </div>
                                 <div class="card-body">
                                     <form method="POST" action=" <?php $_SERVER['PHP_SELF']; ?> ">
+                                       
                                         <div class="row">
 
-                                            <div class="col-md-4 pr-1">
+                                            <div class="col-md-3 pr-1">
                                                 <div class="form-group">
-                                                    <label>Last Name</label>
-                                                    <input type="text" class="form-control" name="lastname" placeholder="Type here...">
+                                                    <label>Document Code</label>
+                                                    <input type="text" class="form-control" name="documentcode" placeholder="Type here...">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-3 px-1">
+                                                <div class="form-group">
+                                                    <label>Action</label>
+                                                    <select class="form-control" name="action">
+                                                        <option>IN</option>
+                                                        <option>OUT</option>
+                                                        <option>COMPLETE</option>
+                                                    </select>
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-4 pr-1">
+                                            <div class="col-md-6 pl-1">
                                                 <div class="form-group">
-                                                    <label>First Name</label>
-                                                    <input type="text" class="form-control" name="firstname" placeholder="Type here...">
+                                                    <label>Remarks</label>
+                                                    <input type="text" class="form-control" name="remarks" placeholder="Type here...">
                                                 </div>
                                             </div>
-
-                                            <div class="col-md-4 pl-1">
+                                            
+                                        </div>
+                                       
+                                        <div class="row">
+                                           
+                                            <div class="col-md-6">
                                                 <div class="form-group"> 
-                                                    <label> Office </label>
-                                                    <!-- <input name="email" type="email" class="form-control" placeholder="Email"> -->
-                                                    <select class="form-control" name="office">
+                                                    <label> Employee </label>
+                                                    <select class="form-control" name="employee_id">
                                                         <option value="" disabled selected hidden>Select....</option>
                                                         <?php 
-                                                            $query = "SELECT id, name FROM office";
+                                                            $query = "SELECT id, CONCAT(lastname,', ',firstname) as Employee FROM recordsapp_db.employee";
+                                                            $result = mysqli_query($conn, $query);
+                                                            while ($row = mysqli_fetch_array($result)){
+                                                                echo "<option value=" . $row['id'] . ">" . $row['Employee'] . '</option>';
+                                                            }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group"> 
+                                                    <label> Office </label>
+                                                    <select class="form-control" name="office_id">
+                                                        <option>Select....</option>
+                                                        <?php 
+                                                            $query = "SELECT id, name FROM recordsapp_db.office";
                                                             $result = mysqli_query($conn, $query);
                                                             while ($row = mysqli_fetch_array($result)){
                                                                 echo "<option value=" . $row['id'] . ">" . $row['name'] . '</option>';
@@ -144,17 +176,8 @@
                                             </div>
 
                                         </div>
-
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label>Address / Building</label>
-                                                    <input type="text" class="form-control" name="address" placeholder="Type here...">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <button type="submit" name="submit" value="Submit" class="btn btn-warning btn-fill pull-right">Save</button>
+    
+                                        <button type="submit" name="submit" value="Submit" class="btn btn-primary btn-fill pull-right">Save</button>
                                         <div class="clearfix"></div>  <br>
                                     </form>
                                 </div>

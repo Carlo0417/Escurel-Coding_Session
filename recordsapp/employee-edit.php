@@ -6,7 +6,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="/assets/img/favicon.ico">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Record App - Adding Employee</title>
+    <title>Record App - Editing Employee</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
@@ -19,6 +19,35 @@
 </head>
 
 <body>
+    <?php 
+        require('config/config.php');
+        require('config/db.php');
+
+        // Get value sent over
+        $id = $_GET['id'];
+
+        // Create Query
+        $query = "SELECT * FROM employee WHERE id=" . $id;
+
+        // Get result of query
+        $result = mysqli_query($conn, $query);
+
+        if(count(array($result)) == 1){
+            // Fetch Data
+            $employee = mysqli_fetch_array($result);
+            $lastname = $employee['lastname'];
+            $firstname = $employee['firstname']; 
+            $office_id = $employee['office_id'];
+            $address = $employee['address'];
+        }
+
+        // Free result
+        mysqli_free_result($result);
+
+        // Close connection
+        mysqli_close($conn);
+    ?>
+
     <div class="wrapper">
         <div class="sidebar" data-image="../assets/img/sidebar-5.jpg">
             <div class="sidebar-wrapper">
@@ -83,9 +112,9 @@
             $office_id = mysqli_real_escape_string($conn, $_POST['office']);
             $address = mysqli_real_escape_string($conn, $_POST['address']);
 
-            // Create Insert Query
-            $query = "INSERT INTO employee(lastname, firstname, office_id, address) 
-            VALUES('$lastname', '$firstname', '$office_id', '$address')";
+            // Create Update Query
+            $query = "UPDATE employee SET lastname='$lastname', firstname='$firstname', 
+            office_id='$office_id', address='$address' WHERE id=" . $id;
 
             // Execute Query
             if(mysqli_query($conn, $query)){
@@ -106,7 +135,7 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">Add New Employee</h4>
+                                    <h4 class="card-title">Edit Employee</h4>
                                 </div>
                                 <div class="card-body">
                                     <form method="POST" action=" <?php $_SERVER['PHP_SELF']; ?> ">
@@ -115,28 +144,36 @@
                                             <div class="col-md-4 pr-1">
                                                 <div class="form-group">
                                                     <label>Last Name</label>
-                                                    <input type="text" class="form-control" name="lastname" placeholder="Type here...">
+                                                    <input type="text" class="form-control" name="lastname" value=" <?php echo $lastname; ?> ">
                                                 </div>
                                             </div>
 
                                             <div class="col-md-4 pr-1">
                                                 <div class="form-group">
                                                     <label>First Name</label>
-                                                    <input type="text" class="form-control" name="firstname" placeholder="Type here...">
+                                                    <input type="text" class="form-control" name="firstname" value=" <?php echo $firstname; ?> ">
                                                 </div>
                                             </div>
 
                                             <div class="col-md-4 pl-1">
                                                 <div class="form-group"> 
-                                                    <label> Office </label>
-                                                    <!-- <input name="email" type="email" class="form-control" placeholder="Email"> -->
-                                                    <select class="form-control" name="office">
-                                                        <option value="" disabled selected hidden>Select....</option>
+                                                    <label for="exampleInputEmail"> Office </label>
+                                                    <select class="form-control" name='office'>
+                                                        <option>Select....</option>
                                                         <?php 
                                                             $query = "SELECT id, name FROM office";
                                                             $result = mysqli_query($conn, $query);
+                                                           
                                                             while ($row = mysqli_fetch_array($result)){
-                                                                echo "<option value=" . $row['id'] . ">" . $row['name'] . '</option>';
+                                                                
+                                                                if($row['id'] == $office_id){
+                                                                   
+                                                                    echo "<option value=" . $row['id'] . " selected>" . $row['name'] . '</option>';
+
+                                                                }else{
+
+                                                                    echo "<option value=" . $row['id'] . ">" . $row['name'] . '</option>';
+                                                                }
                                                             }
                                                         ?>
                                                     </select>
@@ -149,17 +186,18 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label>Address / Building</label>
-                                                    <input type="text" class="form-control" name="address" placeholder="Type here...">
+                                                    <input type="text" class="form-control" name="address" value=" <?php echo $firstname; ?> ">
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <button type="submit" name="submit" value="Submit" class="btn btn-warning btn-fill pull-right">Save</button>
+                                        <button type="submit" name="submit" value="Submit" class="btn btn-warning btn-fill pull-right">Update</button>
                                         <div class="clearfix"></div>  <br>
                                     </form>
                                 </div>
                             </div>
                         </div>
+                        
                 </div>
             </div>
             <footer class="footer">

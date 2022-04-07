@@ -18,7 +18,9 @@ Direction:
 [/] Modify the field name id in user account  
 
 ## These are the items you have to accomplished:  
+
 2022-04-05
+
 [/] Add assets to the project.  
 [/] Create includes directory; create navbar and sidebar.  
 [/] Setup database configuration.  
@@ -26,16 +28,24 @@ Direction:
 [/] Create page for List of employees.  
 [/] Create page for List of transactions.  
 [/] Create page for adding office.  
-[/] Create page for adding employee.  
-[x] Create page for adding transactions.  
-[x] Applying pagination to list of office.  
-[x] Applying pagination to list of employees.  
-[x] Applying pagination to list of transactions.  
-[x] Create search feature in list of transactions.  
-[x] Create search feature in list of office. (challenge)  
-[x] Create search feature in list of employees. (challenge)  
-[x] Edit page for office.  
-[x] Edit page for employees.  
-[x] Edit page for transactions. (challenge)
+[/] Create page for adding employee.
+
+
+2022-04-06
+
+[/] Create page for adding transactions.  
+[/] Applying pagination to list of office.  
+[/] Applying pagination to list of employees.  
+[/] Applying pagination to list of transactions.  
+[/] Create search feature in list of transactions.  
+[/] Edit page for office.
+[/] Edit page for employees.  
+
+
+2022-04-07
+
+[/] Create search feature in list of office. (challenge)  
+[/] Create search feature in list of employees. (challenge)  
+[/] Edit page for transactions. (challenge)
 
 ***challenge means not included in the video***

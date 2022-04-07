@@ -24,8 +24,30 @@
         require('config/config.php');
         require('config/db.php');
 
+        // Define the total number of results you want per page
+        $results_per_page = 10;
+
+        // Find the total number of results/rows storedc in the database
+        $query = "SELECT * FROM office";
+        $result = mysqli_query($conn, $query);
+         $number_of_result = mysqli_num_rows($result);
+ 
+        // Determine the total number of pages availble
+        $number_of_page = ceil($number_of_result / $results_per_page);
+ 
+        // Determine which page number visitor is currently on
+        if(!isset($_GET['page'])){
+            $page = 1;
+ 
+        }else{
+            $page = $_GET['page'];
+        }
+ 
+        // Determine the sql LIMIT starting number for the results on the display page
+        $page_first_result = ($page-1) * $results_per_page;
+
         // Create Query
-        $query = 'SELECT * FROM office ORDER BY name';
+        $query = 'SELECT * FROM office ORDER BY name LIMIT '. $page_first_result . ',' . $results_per_page;
 
         // Get the result
         $result = mysqli_query($conn, $query);
@@ -48,10 +70,17 @@
             <div class="sidebar-wrapper">
                 
             <div class="logo">
-                    <a href="javascript:;" class="simple-text">
-                      Your Logo
-                    </a>
+                <div class="row">
+                    <div class="col-md-2">
+                    <i class="nc-icon nc-icon nc-app pull-left" style="font-size: 20px; padding: 10px;"></i>
+                   
+                    </div>
+                    <div class="col-md-10">
+                    <a href="transaction.php" class="simple-text  pull-left">Record App</a>
+                    </div>
                 </div>
+            </div>
+            
                 <ul class="nav">
                     <li>
                         <a class="nav-link" href="transaction.php">
@@ -99,17 +128,28 @@
                                 <br/>
 
                                 <div class="col-md-12">
-                                    <a href="/office-add.php">
-                                        <button type="submit" class="btn btn-info btn-fill pull-right"> Add New Office </button>
-                                    </a>
-                                </div> 
-
-                                <div class="card-header ">
-                                    <h4 class="card-title">Offices</h4>
-                                    <p class="card-category">Here is the list of your offices</p>
+                                    <div class="card-header ">
+                                        <h2 class="card-title">Offices</h2>
+                                        <p class="card-category">Here is the list of your offices</p>
+                                    </div>
                                 </div>
+
+                                <br/>
+
+                                <div class="row" style="padding: 15px;">
+                                    <div class="col-md-6">
+                                        <input id="myInput" onkeyup="myFunction()" placeholder="Search offices here..."
+                                        style="padding: 5px; width: 250px; font-size: 15px;" class="pull-left">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="/office-add.php">
+                                            <button type="submit" class="btn btn-danger btn-fill pull-right"> Add New Office </button>
+                                        </a>
+                                    </div> 
+                                </div>
+
                                 <div class="card-body table-full-width table-responsive">
-                                    <table class="table table-hover table-striped">
+                                    <table class="table table-hover table-striped" id="myTable">
                                         <thead>
                                             <th>Name</th>
                                             <th>Contact Number</th>
@@ -118,6 +158,7 @@
                                             <th>City</th>
                                             <th>Country</th>
                                             <th>Postal</th>
+                                            <th>Action</th>
                                         </thead>
 
                                         <tbody>
@@ -131,7 +172,12 @@
                                                 <td> <?php echo $office['address']; ?> </td>
                                                 <td> <?php echo $office['city']; ?> </td>
                                                 <td> <?php echo $office['country']; ?> </td>
-                                                <td> <?php echo $office['postal']; ?> </td>                                   
+                                                <td> <?php echo $office['postal']; ?> </td>  
+                                                <td> 
+                                                    <a href="/office-edit.php?id=<?php echo $office['id']; ?>"> 
+                                                        <button type="submit" class="btn btn-danger btn-fill pull-right">Edit</button>
+                                                    </a>
+                                                </td>                                      
                                             </tr>
                                             
                                             <?php endforeach ?>
@@ -143,47 +189,58 @@
                         </div>
                     </div>
 
+                    <?php
+                        for($page = 1; $page <= $number_of_page; $page++){
+                            echo '<a href="office.php?page='. $page . '">' . $page . '</a>';
+                        }
+                    ?>
+
                 </div>
             </div>
             <footer class="footer">
                 <div class="container-fluid">
-                    <nav>
-                        <ul class="footer-menu">
-                            <li>
-                                <a href="#">
-                                    Home
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Company
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Portfolio
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Blog
-                                </a>
-                            </li>
-                        </ul>
-                        <p class="copyright text-center">
-                            ©
-                            <script>
-                                document.write(new Date().getFullYear())
-                            </script>
-                            <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
-                        </p>
-                    </nav>
+                    <p class="copyright text-center">©
+                        <script>
+                            document.write(new Date().getFullYear())
+                        </script>
+                        <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
+                    </p>
                 </div>
             </footer>
         </div>
     </div>
   
 </body>
+
+<script>
+    function myFunction() 
+    {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("myInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("myTable");
+      tr = table.getElementsByTagName("tr");
+      th = table.getElementsByTagName("th");
+      
+      for (i = 1; i < tr.length; i++) 
+      {
+        tr[i].style.display = "none";    
+        for(var j = 0; j < th.length; j++)
+        {
+          td = tr[i].getElementsByTagName("td")[j];      
+          if (td) 
+          {
+            if (td.innerHTML.toUpperCase().indexOf(filter.toUpperCase()) > -1)                               
+            {
+                tr[i].style.display = "";
+                break;
+            }
+          }
+        }
+      }
+    }
+  </script>
+
 <!--   Core JS Files   -->
 <script src="/assets/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
 <script src="/assets/js/core/popper.min.js" type="text/javascript"></script>
