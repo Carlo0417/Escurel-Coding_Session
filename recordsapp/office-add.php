@@ -111,6 +111,7 @@
                                 <div class="card-header">
                                     <h4 class="card-title">Add New Office</h4>
                                 </div>
+                                
                                 <div class="card-body">
                                     <form method="POST" action=" <?php $_SERVER['PHP_SELF']; ?> ">
                                         <div class="row">
@@ -170,6 +171,7 @@
                                 </div>
                             </div>
                         </div>
+                     </div>
                 </div>
             </div>
             <footer class="footer">
