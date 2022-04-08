@@ -84,7 +84,7 @@
 
 
     <div class="wrapper">
-        <div class="sidebar" data-image="../assets/img/sidebar-5.jpg">
+        <div class="sidebar" data-image="/assets/img/sidebar-1.jpg" data-color="azure">
     
             <div class="sidebar-wrapper">
                 
@@ -159,12 +159,12 @@
                                     <div class="col-md-6">
                                         <form action="transaction.php" method="GET">
                                             <input type="text" name="search" placeholder="Search here..." style="padding: 5px; width: 250px">
-                                            <input type="submit" value="Search" class="btn btn-primary btn-fill">
+                                            <input type="submit" value="Search" class="btn btn-info btn-fill">
                                         </form>
                                     </div>
                                     <div class="col-md-6">
                                         <a href="/transaction-add.php">
-                                            <button type="submit" class="btn btn-primary btn-fill pull-right"> Add New Transaction </button>
+                                            <button type="submit" class="btn btn-info btn-fill pull-right"> Add New Transaction </button>
                                         </a>
                                     </div> 
                                 </div>
@@ -194,7 +194,7 @@
                                                 <td> <?php echo $transaction['remarks']; ?> </td>   
                                                 <td> 
                                                     <a href="/transaction-edit.php?id=<?php echo $transaction['id']; ?>"> 
-                                                        <button type="submit" class="btn btn-primary btn-fill pull-right">Edit</button>
+                                                        <button type="submit" class="btn btn-info btn-fill pull-right">Edit</button>
                                                     </a>
                                                 </td>                                                              
                                             </tr>

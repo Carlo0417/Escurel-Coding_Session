@@ -20,7 +20,7 @@
 
 <body>
     <div class="wrapper">
-        <div class="sidebar" data-image="../assets/img/sidebar-5.jpg">
+        <div class="sidebar" data-image="../assets/img/sidebar-3.jpg"  data-color="orange">
             <div class="sidebar-wrapper">
                 
             <div class="logo">

@@ -49,7 +49,7 @@
     ?>
 
     <div class="wrapper">
-        <div class="sidebar" data-image="../assets/img/sidebar-5.jpg">
+        <div class="sidebar" data-image="/assets/img/sidebar-3.jpg"  data-color="orange">
             <div class="sidebar-wrapper">
                 
             <div class="logo">
@@ -186,7 +186,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label>Address / Building</label>
-                                                    <input type="text" class="form-control" name="address" value=" <?php echo $firstname; ?> ">
+                                                    <input type="text" class="form-control" name="address" value=" <?php echo $address; ?> ">
                                                 </div>
                                             </div>
                                         </div>

@@ -20,7 +20,7 @@
 
 <body>
     <div class="wrapper">
-        <div class="sidebar" data-image="../assets/img/sidebar-5.jpg">
+        <div class="sidebar" data-image="/assets/img/sidebar-1.jpg"  data-color="azure">
             <div class="sidebar-wrapper">
                 
             <div class="logo">
@@ -177,7 +177,7 @@
 
                                         </div>
     
-                                        <button type="submit" name="submit" value="Submit" class="btn btn-primary btn-fill pull-right">Save</button>
+                                        <button type="submit" name="submit" value="Submit" class="btn btn-info btn-fill pull-right">Save</button>
                                         <div class="clearfix"></div>  <br>
                                     </form>
                                 </div>

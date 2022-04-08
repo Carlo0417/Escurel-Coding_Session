@@ -51,7 +51,7 @@
     ?>
 
     <div class="wrapper">
-        <div class="sidebar" data-image="../assets/img/sidebar-5.jpg">
+        <div class="sidebar" data-image="/assets/img/sidebar-1.jpg"  data-color="azure">
             <div class="sidebar-wrapper">
                 
             <div class="logo">
@@ -164,8 +164,7 @@
                                             <div class="col-md-3 px-1">
                                                 <div class="form-group">
                                                     <label>Action</label>
-                                                    <select class="form-control" name="action" >
-
+                                                    <select class="form-control" name="action">
                                                         <option value="IN" <?php if($action=="IN") 
                                                         echo 'selected="selected"'; ?> >IN</option>
 
@@ -239,7 +238,7 @@
 
                                         </div>
     
-                                        <button type="submit" name="submit" value="Submit" class="btn btn-primary btn-fill pull-right">Update</button>
+                                        <button type="submit" name="submit" value="Submit" class="btn btn-info btn-fill pull-right">Update</button>
                                         <div class="clearfix"></div>  <br>
                                     </form>
                                 </div>

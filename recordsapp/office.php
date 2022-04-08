@@ -65,7 +65,7 @@
 
 
     <div class="wrapper">
-        <div class="sidebar" data-image="../assets/img/sidebar-5.jpg">
+        <div class="sidebar" data-image="/assets/img/sidebar-2.jpg"  data-color="red">
     
             <div class="sidebar-wrapper">
                 
